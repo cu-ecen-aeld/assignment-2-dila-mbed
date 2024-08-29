@@ -5,6 +5,15 @@
 set -e
 set -u
 
+# Clean previous build artifacts
+echo "Cleaning previous build artifacts..."
+make clean
+
+# Compile the writer application using native compilation
+echo "Compiling writer application.."
+make all
+
+
 NUMFILES=10
 WRITESTR=AELD_IS_FUN
 WRITEDIR=/tmp/aeld-data
@@ -52,9 +61,10 @@ fi
 #make clean
 #make
 
+# Use writer utility instead of writer.sh
 for i in $( seq 1 $NUMFILES)
 do
-	./writer.sh "$WRITEDIR/${username}$i.txt" "$WRITESTR"
+	./writer "$WRITEDIR/${username}$i.txt" "$WRITESTR"
 done
 
 OUTPUTSTRING=$(./finder.sh "$WRITEDIR" "$WRITESTR")
